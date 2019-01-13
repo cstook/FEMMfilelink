@@ -9,7 +9,6 @@ const ofile = configdict["ofile"]
 function clearfiles()
     rm(ifile,force=true)
     rm(ofile,force=true)
-    (ifile,ofile)
 end
 
 function setup()
@@ -32,7 +31,7 @@ function readofile()
 end
 
 function writeifile(luastatment)
-    open(femm_files.ifile, create=true, write=true) do io
+    open(ifile, create=true, write=true) do io
         write(io,luastatment)
     end
 end
