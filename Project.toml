@@ -1,0 +1,7 @@
+name = "FEMMfilelink"
+uuid = "8e1febf0-1750-11e9-1130-a1d918800fa3"
+authors = ["Chris Stook <chris@chrisstook.com>"]
+version = "0.1.0"
+
+[deps]
+TOML = "191fdcea-f9f2-43e0-b922-d33f71e2abc3"
