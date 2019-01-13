@@ -42,6 +42,6 @@ function filelink(luastatment; returntype::Type=Float64)
     parse(returntype,match(r"\[(.*)\]",x).captures[1])
 end
 
-testfilelink() = filelink("2+2") == 4.0
+testfilelink() = filelink("flput(2+2)") == 4.0
 
 end # module
