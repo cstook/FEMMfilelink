@@ -2,14 +2,14 @@ module FEMMfilelink
 
 import TOML
 
-const (exe,ifile,ofile) = getfemmfiles()
-
 function getfemmfiles()
-    config = join(homedir,"FEMMfilelinkconfig.toml")
+    config = joinpath(homedir(),"FEMMfilelinkconfig.toml")
     ~isfile(config) && cp("FEMMfilelinkconfig.toml",config)
     configdict = TOML.parsefile("FEMMfilelinkconfig.toml")
     (configdict["exe"], configdict["ifile"], configdict["ofile"])
 end
+
+const (exe,ifile,ofile) = getfemmfiles()
 
 function clearfiles()
     rm(ifile,force=true)
