@@ -41,6 +41,8 @@ function filelink(luastatment; returntype::Type=Float64)
     writeifile(luastatment)
     x = readofile()
     parse(returntype,match(r"\[(.*)\]",x).captures[1])
-end # module
+end
 
 testfilelink() = filelink("2+2") == 4.0
+
+end # module
