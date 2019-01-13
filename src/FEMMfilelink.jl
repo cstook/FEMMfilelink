@@ -1,7 +1,7 @@
 module FEMMfilelink
 
 import TOML
-configdict = TOML.parsefile("../FEMMfilelinkconfig.toml")
+configdict = TOML.parsefile("FEMMfilelinkconfig.toml")
 const exe = configdict["exe"]
 const ifile = configdict["ifile"]
 const ofile = configdict["ofile"]
