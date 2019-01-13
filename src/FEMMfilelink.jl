@@ -43,9 +43,9 @@ function writeifile(luastatment)
     end
 end
 
-function filelink(luastatment; returntype::Type=Float64)
+function filelink(luastatment; returntype::Type=Float64, delay=.1, retries=20)
     writeifile(luastatment)
-    x = readofile()
+    x = readofile(delay=delay, retries=retries)
     parse(returntype,match(r"\[(.*)\]",x).captures[1])
 end
 
