@@ -16,14 +16,14 @@ function clearfiles()
     rm(ofile,force=true)
 end
 
-function setup()
+function startfemm()
     clearfiles()
     run(`$exe -filelink -windowhide`, wait=false)
 end
 
-function readofile()
-    for i=1:20
-        wait(Timer(.1))
+function readofile(;delay=.1, retries=20)
+    for i=1:retries
+        wait(Timer(delay))
         isfile(ofile) && break
     end
     x = ""
@@ -32,6 +32,7 @@ function readofile()
             x = read(io,String)
         end
     end
+    rm(ofile,force=true)
     x
 end
 
@@ -47,6 +48,9 @@ function filelink(luastatment; returntype::Type=Float64)
     parse(returntype,match(r"\[(.*)\]",x).captures[1])
 end
 
-testfilelink() = filelink("flput(2+2)") == 4.0
+function testfilelink()
+    clearfiles()
+    filelink("flput(2+2)") == 4.0
+end
 
 end # module
