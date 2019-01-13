@@ -5,7 +5,7 @@ import TOML
 function getfemmfiles()
     config = joinpath(homedir(),"FEMMfilelinkconfig.toml")
     ~isfile(config) && cp("FEMMfilelinkconfig.toml",config)
-    configdict = TOML.parsefile("FEMMfilelinkconfig.toml")
+    configdict = TOML.parsefile(config)
     (configdict["exe"], configdict["ifile"], configdict["ofile"])
 end
 
