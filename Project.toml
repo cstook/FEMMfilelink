@@ -4,4 +4,6 @@ authors = ["Chris Stook <chris@chrisstook.com>"]
 version = "0.1.0"
 
 [deps]
+FileWatching = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 TOML = "191fdcea-f9f2-43e0-b922-d33f71e2abc3"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

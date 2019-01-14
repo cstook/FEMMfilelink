@@ -2,15 +2,16 @@ module FEMMfilelink
 
 
 import TOML
+using FileWatching
 
 function getfemmfiles()
     config = joinpath(homedir(),"FEMMfilelinkconfig.toml")
     ~isfile(config) && cp("FEMMfilelinkconfig.toml",config)
     configdict = TOML.parsefile(config)
-    (configdict["exe"], configdict["ifile"], configdict["ofile"])
+    (configdict["exe"], configdict["ifile"], configdict["ofile"], configdict["femmbindir"])
 end
 
-const (exe,ifile,ofile) = getfemmfiles()
+const (exe,ifile,ofile,femmbindir) = getfemmfiles()
 
 function clearfiles()
     rm(ifile,force=true)
@@ -22,16 +23,15 @@ function startfemm()
     run(`$exe -filelink -windowhide`, wait=false)
 end
 
-function readofile(;delay=.1, retries=20)
-    for i=1:retries
-        wait(Timer(delay))
-        isfile(ofile) && break
+function readofile(;timeout_s::Real=-1)
+    while ~isfile(ofile)
+        (file,event) = watch_folder(femmbindir,timeout_s)
+        event.timedout && throw(ErrorException("readofile timeout"))
     end
+    unwatch_folder(femmbindir)
     x = ""
-    if isfile(ofile)
-        open(ofile, read=true) do io
-            x = read(io,String)
-        end
+    open(ofile, read=true) do io
+        x = read(io,String)
     end
     rm(ofile,force=true)
     x
@@ -43,15 +43,15 @@ function writeifile(luastatment)
     end
 end
 
-function filelink(luastatment; returntype::Type=Float64, delay=.1, retries=20)
+function filelink(luastatment; returntype::Type=Float64, timeout_s::Real=-1)
     writeifile(luastatment)
-    x = readofile(delay=delay, retries=retries)
+    x = readofile(timeout_s=timeout_s)
     parse(returntype,match(r"\[(.*)\]",x).captures[1])
 end
 
-function testfilelink()
+function testfilelink(;timeout_s::Real=-1)
     clearfiles()
-    filelink("flput(2+2)") == 4.0
+    filelink("flput(2+2)",timeout_s=timeout_s) == 4.0
 end
 
 end # module
