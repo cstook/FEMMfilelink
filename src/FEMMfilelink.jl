@@ -49,7 +49,7 @@ function filelink(luastatment; returntype::Type=Float64, timeout_s::Real=-1)
     parse(returntype,match(r"\[(.*)\]",x).captures[1])
 end
 
-function testfilelink(;timeout_s::Real=-1)
+function testfilelink(;timeout_s::Real=1.0)
     clearfiles()
     filelink("flput(2+2)",timeout_s=timeout_s) == 4.0
 end
